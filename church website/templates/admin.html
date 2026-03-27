@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Utubaa Dhugaa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: sans-serif; padding: 50px; background: #f4f7f6; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #2c3e50; color: white; }
+        .logout { float: right; color: red; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <a href="/logout" class="logout">Bahuu (Logout)</a>
+    <h2><i class="fas fa-church"></i> Ergaa Miseensotaa (Member Messages)</h2>
+    <p>Total Members Managed: 1000+</p>
+    <br>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Maqaa (Name)</th>
+            <th>Bilbila (Phone)</th>
+            <th>Ergaa (Message)</th>
+        </tr>
+        {% for msg in messages %}
+        <tr>
+            <td>{{ msg.id }}</td>
+            <td>{{ msg.name }}</td>
+            <td>{{ msg.phone }}</td>
+            <td>{{ msg.message }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

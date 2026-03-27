@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="om">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waldaa Kiristaanaa Utubaa Dhugaa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e67e22;
+            --light: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { line-height: 1.6; color: #333; scroll-behavior: smooth; }
+
+        /* Navigation */
+        header {
+            background: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-area h2 { color: var(--primary); font-size: 1.2rem; }
+        .logo-area span { color: var(--accent); }
+
+        nav a { margin-left: 20px; text-decoration: none; color: var(--primary); font-weight: 600; font-size: 0.9rem; }
+        nav a:hover { color: var(--accent); }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("{{ url_for('static', filename='hero-bg.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 10%;
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; max-width: 800px; margin-bottom: 2rem; }
+
+        .cta-btns .btn {
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            margin: 10px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-main { background: var(--accent); color: white; border: none; cursor: pointer; }
+        .btn-outline { border: 2px solid white; color: white; }
+        .btn-main:hover { background: #d35400; }
+
+        /* Sections General */
+        section { padding: 80px 10%;} 
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--primary); }
+        .section-title .underline { width: 80px; height: 4px; background: var(--accent); margin: 10px auto; }
+
+        /* Service Times Cards */
+        .services-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .s-card { background: var(--light); padding: 40px; border-radius: 15px; text-align: center; transition: 0.3s; }
+        .s-card:hover { transform: translateY(-10px); background: var(--white); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .s-card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; }
+
+        /* Ministries */
+        .min-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .min-item { background: var(--primary); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+
+        /* Contact Section */
+        .contact-flex { display: flex; flex-wrap: wrap; gap: 40px; }
+        .contact-info { flex: 1; min-width: 300px; }
+        .contact-form-box { flex: 1; min-width: 300px; background: var(--light); padding: 30px; border-radius: 15px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;
+        }
+
+        .map-box { width: 100%; height: 300px; margin-top: 20px; border-radius: 15px; overflow: hidden; }
+
+        footer { background: var(--primary); color: white; padding: 50px 10% 20px; text-align: center; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            header { flex-direction: column; }
+            nav { margin-top: 15px; }
+            nav a { margin: 0 10px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area" style="display: flex; align-items: center; gap: 10px;">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 50px;">
+            <h2>Utubaa <span>Dhugaa</span></h2>
+        </div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#ministries">Ministries</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Baga Nagaan Dhuftan!</h1>
+        <p>Waldaa Kiristaanaa Utubaa Dhugaa bakka dubbii Waaqayyoo barsiifamu, kadhannaan taasifamu fi hawaasni kiristaanaa wal jajjabeessu dha.</p>
+        <div class="cta-btns">
+            <a href="#services" class="btn btn-main">Sa'aatii Tajaajilaa</a>
+            <a href="#contact" class="btn btn-outline">Nu Argachuuf</a>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="section-title">
+            <h2>Sa'aatii Tajaajilaa</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="services-container">
+            <div class="s-card">
+                <i class="fas fa-sun"></i>
+                <h3>Tajaajila Dilbataa</h3>
+                <p>Ganama 3:00 – 6:30 (Local Time)</p>
+            </div>
+            <div class="s-card">
+                <i class="fas fa-book-open"></i>
+                <h3>Kadhannaa Kamisaa</h3>
+                <p>Galgala 11:30 – 1:30</p>
+            </div>
+            <div class="s-card">
+                <i class="fas fa-fire"></i>
+                <h3>Kadhannaa Jimataa</h3>
+                <p>Galgala 11:30 – 1:30 (Prayer Night)</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" style="background: #fff;">
+        <div class="section-title">
+            <h2>Waa'ee Waldaa Keenyaa</h2>
+            <div class="underline"></div>
+        </div>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.1rem;">
+            <p>Waldaa Kiristaanaa Utubaa Dhugaa waldaa kiristaanaa Afaan Oromoo ta'ee Finfinnee keessatti argamtu dha. Miseensota 1000 ol qabna. Wangeela Kiristoos babal’isuun hawaasa keessatti ifa ta'uu irratti hojjechaa jirra.</p>
+        </div>
+    </section>
+
+    <section id="ministries">
+        <div class="section-title">
+            <h2>Tajaajiloota Keenya</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="min-grid">
+            <div class="min-item">Dargaggoota</div>
+            <div class="min-item">Daa’imman (Sunday School)</div>
+            <div class="min-item">Dubartoota</div>
+            <div class="min-item">Wangeelaa</div>
+            <div class="min-item">Faarfannaa</div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="section-title">
+            <h2>Nu Quunnamaa</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="contact-flex">
+            <div class="contact-info">
+                <h3>Teessoo Keenya</h3>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--accent)"></i> Addis Ababa, Lemi Kura, Woreda 03</p>
+                <p>Naannoo Phison Real Estate</p>
+                <br>
+                <h3>Bilbila & Email</h3>
+                <p><i class="fas fa-phone" style="color:var(--accent)"></i> +251 912023650</p>
+                <p><i class="fas fa-envelope" style="color:var(--accent)"></i> info@utubaadhugaa.org</p>
+                
+                <div class="map-box">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.5!2d38.8!3d9.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMDAnMDAuMCJOIDM4wrA0OCcwMC4wIkU!5e0!3m2!1sen!2set!4v1625000000000!5m2!1sen!2set" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <div class="contact-form-box">
+                <h3>Yaada ykn kadhannaa yoo feetan</h3>
+                <br>
+                <form action="/submit-prayer" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Maqaa Keessan (Name)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="phone" placeholder="Lakkoofsa Bilbilaa (Phone)">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" rows="5" placeholder="Ergaa ykn Kadhannaa keessan asitti barreessaa..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-main" style="width: 100%;">Ergaa Ergi</button>
+                </form>
+                
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    {% for message in messages %}
+                      <p style="color: #27ae60; margin-top: 15px; font-weight: bold; text-align: center;">
+                        <i class="fas fa-check-circle"></i> {{ message }}
+                      </p>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+                </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Waldaa Kiristaanaa Utubaa Dhugaa. All Rights Reserved.</p>
+        <p>Addis Ababa, Ethiopia</p>
+        <div style="margin-top: 20px;">
+            <a href="#" style="color:white; margin: 10px;"><i class="fab fa-facebook fa-2x"></i></a>
+            <a href="#" style="color:white; margin: 10px;"><i class="fab fa-youtube fa-2x"></i></a>
+            <a href="#" style="color:white; margin: 10px;"><i class="fab fa-telegram fa-2x"></i></a>
+        </div>
+    </footer>
+
+</body>
+</html>
