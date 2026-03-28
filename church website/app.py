@@ -4,13 +4,15 @@ from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 
-# --- SECURITY: Use Environment Variables ---
-# On Render, set 'FLASK_SECRET_KEY' to a long random string
-app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_key_only_for_local_testing')
+# --- 1. SECURITY SETTINGS ---
+# On Render, set 'FLASK_SECRET_KEY' in Environment Variables
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'dev_key_2026_utubaa')
 
-# --- DATABASE SETUP ---
+# --- 2. DATABASE LOGIC ---
 def get_db_connection():
-    conn = sqlite3.connect('church.db')
+    # Use an absolute path for the database to avoid Render errors
+    db_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'church.db')
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -28,10 +30,10 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Initialize the database when the app starts
+# Initialize database on startup
 init_db()
 
-# --- ROUTES ---
+# --- 3. PUBLIC ROUTES ---
 
 @app.route('/')
 def index():
@@ -39,32 +41,46 @@ def index():
 
 @app.route('/submit-prayer', methods=['POST'])
 def submit_prayer():
-    name = request.form['name']
-    phone = request.form['phone']
-    message = request.form['message']
+    name = request.form.get('name')
+    phone = request.form.get('phone')
+    message = request.form.get('message')
     
-    conn = get_db_connection()
-    conn.execute('INSERT INTO messages (name, phone, message) VALUES (?, ?, ?)',
-                 (name, phone, message))
-    conn.commit()
-    conn.close()
+    if name and message:
+        conn = get_db_connection()
+        conn.execute('INSERT INTO messages (name, phone, message) VALUES (?, ?, ?)',
+                     (name, phone, message))
+        conn.commit()
+        conn.close()
     return redirect(url_for('index'))
+
+@app.route('/gallery')
+def gallery():
+    # This automatically finds all images in your static/gallery folder
+    gallery_dir = os.path.join(app.root_path, 'static', 'gallery')
+    images = []
+    
+    if os.path.exists(gallery_dir):
+        # Filters for common image types
+        images = [f for f in os.listdir(gallery_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
+    
+    return render_template('gallery.html', images=images)
+
+# --- 4. ADMIN & SECURITY ROUTES ---
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form.get('username')
+        password = request.form.get('password')
         
-        # SECURE: Pulls values from your Render 'Environment' settings
-        # Default values ('admin' and 'Utubaa@2026') are only for local testing
+        # Pulls from Render Environment Variables for 100% security
         admin_user = os.environ.get('ADMIN_USERNAME', 'admin')
         admin_pass = os.environ.get('ADMIN_PASSWORD', 'Utubaa@2026')
         
         if username == admin_user and password == admin_pass:
             session['logged_in'] = True
             return redirect(url_for('admin_dashboard'))
-        return "Kallattiin galumsaa sirrii miti! (Incorrect login)"
+        return "Kallattiin galumsaa sirrii miti! (Incorrect Login)"
             
     return render_template('login.html')
 
@@ -83,5 +99,7 @@ def logout():
     session.pop('logged_in', None)
     return redirect(url_for('index'))
 
+# --- 5. START SERVER ---
 if __name__ == '__main__':
-    app.run(debug=True)
+    # '0.0.0.0' and port 5000 is standard for most hosting
+    app.run(host='0.0.0.0', port=5000, debug=True)
