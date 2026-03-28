@@ -37,7 +37,18 @@ init_db()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # 1. Locate the gallery folder
+    gallery_dir = os.path.join(app.root_path, 'static', 'gallery')
+    images = []
+    
+    # 2. Check if folder exists and grab the first 4 images
+    if os.path.exists(gallery_dir):
+        all_images = [f for f in os.listdir(gallery_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+        # We only show the first 4 on the home page so it loads fast!
+        images = all_images[:4] 
+    
+    # 3. Send those image names to the homepage
+    return render_template('index.html', images=images)
 
 @app.route('/submit-prayer', methods=['POST'])
 def submit_prayer():
