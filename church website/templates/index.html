@@ -179,6 +179,23 @@
             <div class="min-item">Faarfannaa</div>
         </div>
     </section>
+    <section style="padding: 40px; text-align: center; background: white;">
+    <h2 style="color: #2c3e50;">Suuraalee Keenya (Our Photos)</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; padding: 20px;">
+        {% for image in images %}
+        <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <img src="{{ url_for('static', filename='gallery/' + image) }}" 
+                 style="width: 100%; height: 200px; object-fit: cover;" 
+                 alt="Church Event">
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="/gallery" style="text-decoration: none; color: #007bff; font-weight: bold;">
+        Suuraalee Hunda Arguuf Kan Tuqi... (View All Photos)
+    </a>
+</section>
 
     <section id="contact">
         <div class="section-title">
